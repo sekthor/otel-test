@@ -2,6 +2,8 @@ package service
 
 import (
 	"context"
+	"encoding/json"
+	"io"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -35,7 +37,8 @@ func (s *BookService) GetBookByID(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, gin.H{
-		"book":   &book,
+		"id":     book.ID,
+		"title":  book.Title,
 		"author": &author,
 	})
 }
@@ -58,10 +61,19 @@ func (s *BookService) GetAuthor(ctx context.Context, authorId string) (model.Aut
 	if err != nil {
 		return author, err
 	}
-	_, err = s.Client.Do(req)
+	resp, err := s.Client.Do(req)
 	if err != nil {
 		return author, err
 	}
-	//defer resp.Body.Close()
+
+	data, err := io.ReadAll(resp.Body)
+	if err != nil {
+		return author, err
+	}
+
+	err = json.Unmarshal(data, &author)
+	if err != nil {
+		return author, err
+	}
 	return author, nil
 }
