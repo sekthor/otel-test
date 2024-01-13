@@ -14,7 +14,7 @@ type AuthorService struct {
 }
 
 func (s *AuthorService) GetAuthorByID(c *gin.Context) {
-	ctx, span := s.Tracer.Start(c, "GetAuthorByID")
+	ctx, span := s.Tracer.Start(c.Request.Context(), "GetAuthorByID")
 	defer span.End()
 
 	id := c.Param("id")

@@ -9,6 +9,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/sekthor/otel-test/service"
 	"github.com/sekthor/otel-test/telemetry"
+	"go.opentelemetry.io/contrib/instrumentation/github.com/gin-gonic/gin/otelgin"
 	"go.opentelemetry.io/contrib/instrumentation/net/http/httptrace/otelhttptrace"
 	"go.opentelemetry.io/contrib/instrumentation/net/http/otelhttp"
 	"go.opentelemetry.io/otel"
@@ -54,6 +55,7 @@ func main() {
 	}
 
 	router := gin.New()
+	router.Use(otelgin.Middleware("authorservice-otelgin"))
 	router.GET("books/:id", svc.GetBookByID)
 
 	err = router.Run("0.0.0.0:8081")
