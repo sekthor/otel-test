@@ -18,7 +18,7 @@ type BookService struct {
 
 func (s *BookService) GetBookByID(c *gin.Context) {
 	//var err error
-	ctx, span := s.Tracer.Start(context.Background(), "GetAuthorByID")
+	ctx, span := s.Tracer.Start(c.Request.Context(), "GetAuthorByID")
 	defer span.End()
 
 	id := c.Param("id")
