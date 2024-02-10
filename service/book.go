@@ -17,8 +17,7 @@ type BookService struct {
 }
 
 func (s *BookService) GetBookByID(c *gin.Context) {
-	//var err error
-	ctx, span := s.Tracer.Start(c.Request.Context(), "GetAuthorByID")
+	ctx, span := s.Tracer.Start(c.Request.Context(), "GetBookByID")
 	defer span.End()
 
 	id := c.Param("id")
@@ -44,7 +43,7 @@ func (s *BookService) GetBookByID(c *gin.Context) {
 }
 
 func (s *BookService) FetchBookByID(ctx context.Context, id string) model.Book {
-	_, span := s.Tracer.Start(ctx, "FetchAuthorByID")
+	_, span := s.Tracer.Start(ctx, "FetchBookByID")
 	defer span.End()
 
 	return model.Book{
