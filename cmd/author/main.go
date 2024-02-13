@@ -41,7 +41,7 @@ func main() {
 	}
 
 	router := gin.New()
-	router.Use(otelgin.Middleware("bookservice-otelgin"))
+	router.Use(otelgin.Middleware("authorservice-otelgin"))
 	router.GET("authors/:id", svc.GetAuthorByID)
 
 	err = router.Run()
